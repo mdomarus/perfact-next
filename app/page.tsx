@@ -3,8 +3,8 @@ import { News } from "@/types";
 import { draftMode } from "next/headers";
 import Link from "next/link";
 import LatestNews from "./components/latest-news";
-import Date from "./date";
-import FeatureImage from "./feature-image";
+import Date from "./components/date";
+import FeatureImage from "./components/feature-image";
 
 function HeroNews({
   news: { title, featureImage, date, excerpt, slug },

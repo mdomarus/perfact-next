@@ -1,38 +1,25 @@
 import { getLatestNews } from "@/lib/api";
 import { draftMode } from "next/headers";
 import NewsPreview from "../components/news-preview";
+import Pagination from "../components/pagination";
 import TypographyH1 from "../components/typography-h1";
-import Link from "next/link";
+interface Props {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
 
-// interface StaticParams {
-//   slug: string;
-// }
+const PAGE_SIZE = 6;
 
-const Pagination = () => {
-  return (
-    <div>
-      <Link href="/">First</Link>
-    </div>
-  );
-};
+export default async function ListNewsPage(props: Props) {
+  const searchParams = await props.searchParams;
+  const page = Number.parseInt(searchParams.page?.toString() || "", 10) || 1;
 
-export default async function ListNewsPage() {
-  // {
-  //   params,
-  //   searchParams,
-  // }: {
-  //   params: Promise<StaticParams>;
-  //   searchParams?: Promise<{
-  //     query?: string;
-  //     page?: string;
-  //   }>;
-  // }
   const { isEnabled } = await draftMode();
   const { data: news, total } = await getLatestNews({
-    count: 6,
+    count: PAGE_SIZE,
+    page,
     preview: isEnabled,
   });
-  console.log("total: ", total);
 
   if (!news) return null;
 
@@ -43,8 +30,8 @@ export default async function ListNewsPage() {
         {news.map((news) => (
           <NewsPreview key={news.slug} news={news} />
         ))}
-        <Pagination />
       </div>
+      <Pagination page={page} totalPages={Math.ceil(total / PAGE_SIZE)} />
     </article>
   );
 }

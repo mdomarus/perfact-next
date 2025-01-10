@@ -131,7 +131,7 @@ export async function getNewsAndMoreNews(
 
 export const getLatestNews = async ({
   count = 3,
-  page = 0,
+  page = 1,
   preview = false,
 }: {
   count?: number;
@@ -142,7 +142,7 @@ export const getLatestNews = async ({
     `query {
       newsCollection(where: { slug_exists: true }, order: date_DESC, preview: ${
         preview ? "true" : "false"
-      }, limit: ${count}, skip: ${page * count}) {
+      }, limit: ${count}, skip: ${(page - 1) * count}) {
         items {
           ${NEWS_GRAPHQL_FIELDS}
         }

@@ -1,7 +1,7 @@
 import Link from "next/link";
-import FeatureImage from "../feature-image";
 import { News } from "@/types";
-import DateComponent from "../date";
+import DateComponent from "./date";
+import FeatureImage from "./feature-image";
 
 function NewsPreview({
   news: { title, featureImage, date, excerpt, slug },

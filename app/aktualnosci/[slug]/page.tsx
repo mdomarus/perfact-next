@@ -1,11 +1,11 @@
-import DateComponent from "@/app/date";
-import FeatureImage from "@/app/feature-image";
-import Gallery from "@/app/gallery";
+import DateComponent from "@/app/components/date";
+import FeatureImage from "@/app/components/feature-image";
+import Gallery from "@/app/components/gallery";
+import LatestNews from "@/app/components/latest-news";
+import TypographyH1 from "@/app/components/typography-h1";
 import { getAllNews, getNewsAndMoreNews } from "@/lib/api";
 import { Markdown } from "@/lib/markdown";
 import { draftMode } from "next/headers";
-import LatestNews from "../../components/latest-news";
-import TypographyH1 from "@/app/components/typography-h1";
 
 interface StaticParams {
   slug: string;
