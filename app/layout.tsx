@@ -1,10 +1,14 @@
-import "./globals.css";
+import { SITE_NAME } from "@/lib/constants";
+import ContentfulImage from "@/lib/contentful-image";
+import { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { EXAMPLE_PATH, CMS_NAME } from "@/lib/constants";
-
-export const metadata = {
-  title: `Next.js and ${CMS_NAME} Example`,
-  description: `This is a blog built with Next.js and ${CMS_NAME}.`,
+import Link from "next/link";
+import "./globals.css";
+export const metadata: Metadata = {
+  title: {
+    template: `%s | ${SITE_NAME}`,
+    default: SITE_NAME,
+  },
 };
 
 const inter = Inter({
@@ -13,30 +17,30 @@ const inter = Inter({
   display: "swap",
 });
 
+function Header() {
+  return (
+    <header className="py-8 flex items-center gap-4">
+      <Link
+        href="/"
+        className="text-2xl font-bold flex items-center logo gap-2"
+      >
+        <ContentfulImage
+          src={"/images/perfact-logo-vector-mini.svg"}
+          alt="Logo Perfact"
+          width={50}
+          height={50}
+        />
+        <span className="hidden md:contents">Fundacja </span> Perfact
+      </Link>
+      <Link href="/aktualnosci">Aktualności</Link>
+    </header>
+  );
+}
+
 function Footer() {
   return (
-    <footer className="bg-accent-1 border-t border-accent-2">
-      <div className="container mx-auto px-5">
-        <div className="py-28 flex flex-col lg:flex-row items-center">
-          <h3 className="text-4xl lg:text-5xl font-bold tracking-tighter leading-tight text-center lg:text-left mb-10 lg:mb-0 lg:pr-4 lg:w-1/2">
-            Built with Next.js.
-          </h3>
-          <div className="flex flex-col lg:flex-row justify-center items-center lg:pl-4 lg:w-1/2">
-            <a
-              href="https://nextjs.org/docs"
-              className="mx-3 bg-black hover:bg-white hover:text-black border border-black text-white font-bold py-3 px-12 lg:px-8 duration-200 transition-colors mb-6 lg:mb-0"
-            >
-              Read Documentation
-            </a>
-            <a
-              href={`https://github.com/vercel/next.js/tree/canary/examples/${EXAMPLE_PATH}`}
-              className="mx-3 font-bold hover:underline"
-            >
-              View on GitHub
-            </a>
-          </div>
-        </div>
-      </div>
+    <footer className="bg-accent-1 border-t border-accent-2 py-16 text-right">
+      &copy;{` 2023 - ${new Date().getFullYear()} ${SITE_NAME}`}
     </footer>
   );
 }
@@ -47,8 +51,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body>
+    <html lang="pl" className={inter.variable}>
+      <body className="container mx-auto px-4">
+        <Header />
         <section className="min-h-screen">
           <main>{children}</main>
           <Footer />

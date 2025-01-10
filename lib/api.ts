@@ -1,34 +1,39 @@
-const POST_GRAPHQL_FIELDS = `
-  slug
+import { News } from "@/types";
+
+const NEWS_GRAPHQL_FIELDS = `
   title
-  coverImage {
+  slug
+  date
+  featureImage {
     url
   }
-  date
-  author {
-    name
-    picture {
-      url
-    }
-  }
-  excerpt
   content {
     json
-    links {
-      assets {
-        block {
-          sys {
-            id
-          }
-          url
-          description
-        }
-      }
+  }
+  project {
+    name
+    slug
+  }
+  galleryCollection {
+    items {
+      url
+      width
+      height
+      title
     }
   }
 `;
 
-async function fetchGraphQL(query: string, preview = false): Promise<any> {
+interface Collection<T> {
+  total: number;
+  data: T[];
+  page: number;
+}
+
+async function fetchGraphQL<T = unknown>(
+  query: string,
+  preview = false,
+): Promise<T> {
   return fetch(
     `https://graphql.contentful.com/content/v1/spaces/${process.env.CONTENTFUL_SPACE_ID}`,
     {
@@ -47,74 +52,108 @@ async function fetchGraphQL(query: string, preview = false): Promise<any> {
   ).then((response) => response.json());
 }
 
-function extractPost(fetchResponse: any): any {
-  return fetchResponse?.data?.postCollection?.items?.[0];
+interface NewsCollection {
+  data: {
+    newsCollection: {
+      items: News[];
+      total: number;
+      page: number;
+    };
+  };
 }
 
-function extractPostEntries(fetchResponse: any): any[] {
-  return fetchResponse?.data?.postCollection?.items;
+function extractNewsEntries(fetchResponse: NewsCollection): News[] {
+  return fetchResponse?.data?.newsCollection?.items ?? [];
 }
 
-export async function getPreviewPostBySlug(slug: string | null): Promise<any> {
-  const entry = await fetchGraphQL(
+function extractNews(fetchResponse: NewsCollection): News | undefined {
+  return extractNewsEntries(fetchResponse)[0];
+}
+
+export async function getAllNews(showDrafts: boolean): Promise<News[]> {
+  const entries = await fetchGraphQL<NewsCollection>(
     `query {
-      postCollection(where: { slug: "${slug}" }, preview: true, limit: 1) {
-        items {
-          ${POST_GRAPHQL_FIELDS}
-        }
-      }
-    }`,
-    true,
-  );
-  return extractPost(entry);
-}
-
-export async function getAllPosts(isDraftMode: boolean): Promise<any[]> {
-  const entries = await fetchGraphQL(
-    `query {
-      postCollection(where: { slug_exists: true }, order: date_DESC, preview: ${
-        isDraftMode ? "true" : "false"
+      newsCollection(where: { slug_exists: true }, order: date_DESC, preview: ${
+        showDrafts ? "true" : "false"
       }) {
         items {
-          ${POST_GRAPHQL_FIELDS}
+          ${NEWS_GRAPHQL_FIELDS}
         }
       }
     }`,
-    isDraftMode,
   );
-  return extractPostEntries(entries);
+  return extractNewsEntries(entries);
 }
 
-export async function getPostAndMorePosts(
+export async function getNews(
   slug: string,
   preview: boolean,
-): Promise<any> {
-  const entry = await fetchGraphQL(
+): Promise<News | undefined> {
+  const entry = await fetchGraphQL<NewsCollection>(
     `query {
-      postCollection(where: { slug: "${slug}" }, preview: ${
+      newsCollection(where: { slug: "${slug}" }, preview: ${
         preview ? "true" : "false"
       }, limit: 1) {
         items {
-          ${POST_GRAPHQL_FIELDS}
+          ${NEWS_GRAPHQL_FIELDS}
         }
       }
     }`,
     preview,
   );
-  const entries = await fetchGraphQL(
+
+  return extractNews(entry);
+}
+
+export async function getNewsAndMoreNews(
+  slug: string,
+  preview: boolean,
+): Promise<{ news: News | undefined; moreNews: News[] }> {
+  const news = await getNews(slug, preview);
+
+  const entries = await fetchGraphQL<NewsCollection>(
     `query {
-      postCollection(where: { slug_not_in: "${slug}" }, order: date_DESC, preview: ${
+      newsCollection(where: { slug_not_in: "${slug}" }, order: date_DESC, preview: ${
         preview ? "true" : "false"
-      }, limit: 2) {
+      }, limit: 3) {
         items {
-          ${POST_GRAPHQL_FIELDS}
+          ${NEWS_GRAPHQL_FIELDS}
         }
       }
     }`,
     preview,
   );
   return {
-    post: extractPost(entry),
-    morePosts: extractPostEntries(entries),
+    news,
+    moreNews: extractNewsEntries(entries),
   };
 }
+
+export const getLatestNews = async ({
+  count = 3,
+  page = 0,
+  preview = false,
+}: {
+  count?: number;
+  page?: number;
+  preview?: boolean;
+}): Promise<Collection<News>> => {
+  const entries = await fetchGraphQL<NewsCollection>(
+    `query {
+      newsCollection(where: { slug_exists: true }, order: date_DESC, preview: ${
+        preview ? "true" : "false"
+      }, limit: ${count}, skip: ${page * count}) {
+        items {
+          ${NEWS_GRAPHQL_FIELDS}
+        }
+        total
+      }
+    }`,
+    preview,
+  );
+  return {
+    data: extractNewsEntries(entries),
+    total: entries?.data?.newsCollection?.total,
+    page,
+  };
+};

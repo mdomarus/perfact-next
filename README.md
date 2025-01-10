@@ -145,7 +145,7 @@ Next, add these fields (you don't have to modify the settings unless specified):
 - `title` - **Text** field (type **short text**)
 - `content` - **Rich text** field
 - `excerpt` - **Text** field (type **Long text, full-text search**)
-- `coverImage` - **Media** field (type **one file**)
+- `featureImage` - **Media** field (type **one file**)
 - `date` - **Date and time** field
 - `slug` - **Text** field. You can optionally go to the settings of this field, and under **Appearance**, select **Slug** to display it as a slug of the `title` field.
 - `author` - **Reference** field (type **one reference**)

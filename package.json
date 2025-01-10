@@ -1,27 +1,41 @@
 {
   "private": true,
   "scripts": {
-    "dev": "next",
     "build": "next build",
-    "start": "next start",
-    "setup": "node ./lib/setup.js"
+    "dev": "next",
+    "lint": "eslint .",
+    "setup": "node ./lib/setup.js",
+    "start": "next start"
   },
   "dependencies": {
-    "@contentful/rich-text-react-renderer": "^15.17.1",
-    "@contentful/rich-text-types": "^16.2.1",
+    "@contentful/rich-text-react-renderer": "^16.0.1",
+    "@contentful/rich-text-types": "^17.0.0",
     "@contentful/vercel-nextjs-toolkit": "latest",
-    "@tailwindcss/typography": "0.5.9",
-    "@types/node": "^20.5.0",
-    "@types/react": "^18.2.20",
-    "@types/react-dom": "^18.2.7",
-    "autoprefixer": "10.4.15",
-    "contentful-import": "^9.0.4",
-    "date-fns": "2.30.0",
-    "next": "latest",
-    "postcss": "8.4.31",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "tailwindcss": "^3.3.3",
-    "typescript": "^5.1.6"
+    "@tailwindcss/typography": "0.5.16",
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.0.4",
+    "@types/react-dom": "^19.0.2",
+    "autoprefixer": "10.4.20",
+    "contentful": "^11.4.2",
+    "contentful-import": "^9.4.79",
+    "date-fns": "4.1.0",
+    "next": "^15.1.4",
+    "postcss": "8.4.49",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-photo-album": "^3.0.2",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3",
+    "yet-another-react-lightbox": "^3.21.7"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-react": "^7.37.3",
+    "globals": "^15.14.0",
+    "prettier": "^3.4.2",
+    "typescript-eslint": "^8.19.1"
   }
 }

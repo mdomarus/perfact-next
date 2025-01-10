@@ -1,11 +1,11 @@
-import ContentfulImage from "../lib/contentful-image";
 import Link from "next/link";
+import ContentfulImage from "../lib/contentful-image";
 
-function cn(...classes: any[]) {
+function cn(...classes: unknown[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function CoverImage({
+export default function FeatureImage({
   title,
   url,
   slug,
@@ -16,12 +16,12 @@ export default function CoverImage({
 }) {
   const image = (
     <ContentfulImage
-      alt={`Cover Image for ${title}`}
+      alt={`Feature Image for ${title}`}
       priority
       width={2000}
       height={1000}
-      className={cn("shadow-small", {
-        "hover:shadow-medium transition-shadow duration-200": slug,
+      className={cn("shadow-small aspect-[3/2] object-cover", {
+        "hover:shadow-medium transition-shadow duration-200 ": slug,
       })}
       src={url}
     />
@@ -30,7 +30,7 @@ export default function CoverImage({
   return (
     <div className="sm:mx-0">
       {slug ? (
-        <Link href={`/posts/${slug}`} aria-label={title}>
+        <Link href={`/aktualnosci/${slug}`} aria-label={title}>
           {image}
         </Link>
       ) : (
