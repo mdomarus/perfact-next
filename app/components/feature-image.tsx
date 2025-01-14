@@ -6,10 +6,12 @@ export default function FeatureImage({
   title,
   url,
   slug,
+  square,
 }: {
   title: string;
   url: string;
   slug?: string;
+  square?: boolean;
 }) {
   const image = (
     <ContentfulImage
@@ -19,6 +21,8 @@ export default function FeatureImage({
       height={1000}
       className={clsx("aspect-[3/2] object-cover", {
         "hover:drop-shadow-md transition-shadow duration-200 ": slug,
+        "aspect-[3/2]": !square,
+        "aspect-square": square,
       })}
       src={url}
     />

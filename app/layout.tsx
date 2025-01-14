@@ -3,7 +3,9 @@ import ContentfulImage from "@/lib/contentful-image";
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
+import Navigation from "./components/navigation";
 import "./globals.css";
+
 export const metadata: Metadata = {
   title: {
     template: `%s | ${SITE_NAME}`,
@@ -19,7 +21,7 @@ const inter = Inter({
 
 function Header() {
   return (
-    <header className="py-8 flex items-center gap-4">
+    <header className="py-8 flex items-center gap-4 justify-between">
       <Link
         href="/"
         className="text-2xl font-bold flex items-center logo gap-2"
@@ -32,7 +34,7 @@ function Header() {
         />
         <span className="hidden md:contents">Fundacja </span> Perfact
       </Link>
-      <Link href="/aktualnosci">Aktualności</Link>
+      <Navigation />
     </header>
   );
 }

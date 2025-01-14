@@ -3,7 +3,7 @@ import FeatureImage from "@/app/components/feature-image";
 import Gallery from "@/app/components/gallery";
 import LatestNews from "@/app/components/latest-news";
 import TypographyH1 from "@/app/components/typography-h1";
-import { getAllNews, getNewsAndMoreNews } from "@/lib/api";
+import { getAllNews, getNewsAndMoreNews } from "@/lib/api-news";
 import { Markdown } from "@/lib/markdown";
 import { draftMode } from "next/headers";
 

@@ -23,3 +23,11 @@ export interface News {
   };
   featureImage: Asset;
 }
+
+export interface Article {
+  title: string;
+  slug: string;
+  date?: string;
+  content: Content;
+  featureImage: Asset;
+}

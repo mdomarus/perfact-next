@@ -1,10 +1,10 @@
-import { getLatestNews } from "@/lib/api";
+import { getLatestNews } from "@/lib/api-news";
 import { News } from "@/types";
 import { draftMode } from "next/headers";
 import Link from "next/link";
-import LatestNews from "./components/latest-news";
 import Date from "./components/date";
 import FeatureImage from "./components/feature-image";
+import LatestNews from "./components/latest-news";
 
 function HeroNews({
   news: { title, featureImage, date, excerpt, slug },
@@ -12,7 +12,7 @@ function HeroNews({
   news: News;
 }) {
   return (
-    <section>
+    <section className="md:grid-cols-2 md:grid md:gap-8">
       <div className="mb-8 md:mb-16">
         <FeatureImage title={title} slug={slug} url={featureImage?.url} />
       </div>
@@ -39,10 +39,13 @@ function HeroNews({
 
 export default async function Page() {
   const { isEnabled: showDrafts } = await draftMode();
-  const { data: allNews } = await getLatestNews({
+  const { items: allNews } = await getLatestNews({
     count: 4,
     preview: showDrafts,
   });
+
+  if (!allNews?.length) return null;
+
   const heroNews = allNews[0];
   const moreNews = allNews.slice(1);
 
