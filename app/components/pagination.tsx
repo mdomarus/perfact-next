@@ -13,7 +13,7 @@ const PaginationLink = ({
   href: Url;
   className?: string;
   disabled?: boolean;
-  children?: ReactNode;
+  children: ReactNode;
 }) => {
   return (
     <Link
@@ -48,12 +48,12 @@ const Pagination = ({
   return (
     <nav className="flex gap-2 my-4 justify-center">
       <PaginationLink
-        href={{ query: { page: 1 } }}
+        href={{ query: { strona: 1 } }}
         disabled={isFirst}
       >{`<<`}</PaginationLink>
 
       <PaginationLink
-        href={{ query: { page: isFirst ? page : page - 1 } }}
+        href={{ query: { strona: isFirst ? page : page - 1 } }}
         disabled={isFirst}
       >
         {isFirst ? page : page - 1}
@@ -62,14 +62,14 @@ const Pagination = ({
       <div className="content-center">{`Strona ${page} z ${totalPages}`}</div>
 
       <PaginationLink
-        href={{ query: { page: isLast ? page : page + 1 } }}
+        href={{ query: { strona: isLast ? page : page + 1 } }}
         disabled={isLast}
       >
         {isLast ? page : page + 1}
       </PaginationLink>
 
       <PaginationLink
-        href={{ query: { page: totalPages } }}
+        href={{ query: { strona: totalPages } }}
         disabled={isLast}
       >{`>>`}</PaginationLink>
     </nav>
