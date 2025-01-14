@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Url } from "next/dist/shared/lib/router/router";
 import Link from "next/link";
@@ -20,10 +21,12 @@ const PaginationLink = ({
         pointerEvents: disabled ? "none" : "auto",
       }}
       href={href}
-      className={cn("hover:underline p-2", className)}
+      className={cn("button hover:underline p-2", className)}
       prefetch
     >
-      {children}
+      <Button className="" disabled={disabled}>
+        {children}
+      </Button>
     </Link>
   );
 };
@@ -56,7 +59,7 @@ const Pagination = ({
         {isFirst ? page : page - 1}
       </PaginationLink>
 
-      <div className="p-2">{`Strona ${page} z ${totalPages}`}</div>
+      <div className="content-center">{`Strona ${page} z ${totalPages}`}</div>
 
       <PaginationLink
         href={{ query: { page: isLast ? page : page + 1 } }}
