@@ -1,8 +1,4 @@
-@tailwind base;
-
-@tailwind components;
-
-@tailwind utilities;
+@import "tailwindcss";
 
 @layer base {
   :root {
@@ -62,18 +58,13 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-
   body {
-    @apply bg-background text-foreground;
     background-image: url('/images/subtler-prism-white.svg');
     background-size: cover;
     background-attachment: fixed;
   }
-}
 
-article h3 {
-  text-align: center;
+  article h3 {
+    text-align: center;
+  }
 }
